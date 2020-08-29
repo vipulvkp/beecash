@@ -1,14 +1,13 @@
 class ContactsController < ApplicationController
-  before_action :set_contact, only: [:show]
-  before_action :set_user_id, only: [:create]
+  before_action :set_user_id
   
   def index
-    @contacts = Contact.all
+    @contacts = @user.contacts.select(:id, :name, :user_id, :phone_number)
     render json: @contacts
   end
 
   def show
-    render json: @contact
+    render json: @user.contacts.where(id: params[:id]).select(:id, :name, :user_id, :phone_number)
   end
 
   # POST /contacts
@@ -26,10 +25,6 @@ class ContactsController < ApplicationController
   end
 
   private
-    def set_contact
-      @contact = Contact.find(params[:id])
-    end
-
     def contact_params
       params.permit(:name,:phone_number)
     end
