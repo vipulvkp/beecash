@@ -9,7 +9,7 @@ module Types
     field :updated_at, GraphQL::Types::ISO8601DateTime, null: false
     field :balance, Integer, null: true
     field :contacts, [Types::ContactType], null: true
-    field :transactions, [Types::TransactionGraphType], null: true do
+    field :transactions, Types::TransactionDataType, null: true do
       argument :transaction_type, String, required: false
       argument :contact_id, ID, required: false
       argument :page_size, Integer, required: false

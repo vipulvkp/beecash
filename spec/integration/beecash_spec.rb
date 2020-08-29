@@ -182,12 +182,14 @@ describe 'Transactions API' do
       response '200', 'Successful response listing all the transactions' do
         schema type: :object ,
         properties: {
+         data: {
           status: { type: :string, description: 'Status of the transactions' },
           transaction_type_id: {type: :integer, description: 'transaction type id 1 for credit , 2 for debit'},
           amount: {type: :integer, description: 'Amount for the transaction'},
           user_id: {type: :integer, description: 'User id who initiated the transaction'},
           contact_id: {type: :integer, description: 'Contact id with which the transaction was done'},
           created_at: {type: :integer, description: 'Created Time stamp of the transaction'}
+         }
        }
       let(:transaction) { { id: 1, transaction_type_id: 1, user_id: 1, contact_id: 1, amount: 10, status: 'created'} }
       run_test!
