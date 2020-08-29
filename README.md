@@ -33,3 +33,33 @@ Once the above puma server is started, Check out the REST api documentation at h
 I have also exposed graphql api (only query) to get a user its contacts and its transactions(pagination supported). Do check out the graphql signature of 
 "user" query in a graphql Client. I have been using Altair graphql Client which is pretty easy to use and play around. 
 This rails app does not have graphiql as I created the rails app in only --api Mode. 
+
+Below is the graphql query:
+
+
+query{<br/>
+  user(id:1){<br/>
+    balance<br/>
+    contacts{<br/>
+      name<br/>
+      phoneNumber<br/>
+     }<br/>
+    createdAt<br/>
+    email<br/>
+    id<br/>
+    name<br/>
+    password<br/>
+    phoneNumber<br/>
+    transactions(transactionType: "debit", contactId: 1, pageSize: 5, pageNumber: 3){<br/>
+    data{<br/>
+      id<br/>
+      userId<br/>
+      contactId<br/>
+      amount<br/>
+      status <br/>
+    }<br/>
+    hasNextPage<br/>
+}<br/>
+    updatedAt<br/>
+  }
+
