@@ -17,12 +17,12 @@ module Types
     end
 
     def transactions(input={}) 
-      obj = {}
-      obj[:transaction_type_id] = TransactionType.find_by(name: input[:transaction_type].downcase).id if input[:transaction_type].present?
-      obj[:contact_id] = input[:contact_id] if input[:contact_id].present? 
+      filter = {}
+      filter[:transaction_type_id] = TransactionType.find_by(name: input[:transaction_type].downcase).id if input[:transaction_type].present?
+      filter[:contact_id] = input[:contact_id] if input[:contact_id].present? 
       get_page_number = (input[:page_number].present?) ? input[:page_number].to_i : 1  
       get_page_size = (input[:page_size].present?) ? input[:page_size].to_i : 50
-      object.get_paginated_transactions(obj, get_page_number, get_page_size) 
+      object.get_paginated_transactions(filter, get_page_number, get_page_size)
     end
   end
 end
