@@ -22,9 +22,9 @@ As of now Gemfile has mysql.
 
 * App initialization
 
-bundle install
-rails db:migrate
-rails db:seed
-rails s
+* bundle install
+* rails db:migrate
+* rails db:seed
+* rails s
 
 Once the above puma server is started, Check out the api documentation at http://localhost:3000/api-docs
