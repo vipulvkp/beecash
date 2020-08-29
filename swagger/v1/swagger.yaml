@@ -167,9 +167,6 @@ paths:
                 name:
                   type: string
                   description: Name of the contact
-                user_id:
-                  type: integer
-                  description: User id to which the contact belongs to
                 phone_number:
                   type: string
                   description: Phone number of the contact
@@ -249,27 +246,10 @@ paths:
       parameters:
       - name: id
         in: path
-        type: integer
         description: User Id for which transaction are required
-        schema:
-          type: object
-          properties:
-            transaction_type:
-              type: string
-              description: 'Fetch transactions for one of the allowed transaction
-                types: Debit | Credit'
-            contact_id:
-              type: integer
-              description: Fetch transactions for this particular contact id
-            page_number:
-              type: integer
-              description: Pagination supported through page number. If not given,
-                page_number will be 1
-            page_size:
-              type: integer
-              description: Pagination supported through page size. If not given, page
-                size will be 50
         required: true
+        schema:
+          type: integer
       responses:
         '200':
           description: Successful response listing all the transactions

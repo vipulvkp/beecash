@@ -17,5 +17,5 @@ Rails.application.routes.draw do
   post "/contacts", to: "contacts#create"
 
 #################### Routes for transactions for a user ########################### 
-  get "/users/:id/transactions" , to: "transactions#show"
+  get "transactions" , to: "transactions#show"
 end

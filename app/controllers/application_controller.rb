@@ -8,7 +8,7 @@ def set_user_id
       raise "InValid UserID" if bearer_token.nil?
       decoded_data = JWT.decode bearer_token, SIGN_IN_SECRET , true, { algorithm: 'HS256' }
       raise JWT::DecodeError if decoded_data.first["user_id"].blank?
-      @user_id = decoded_data.first["user_id"]
+      @user = User.find(decoded_data.first["user_id"])
 end
 
 private

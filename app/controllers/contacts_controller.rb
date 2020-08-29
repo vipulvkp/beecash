@@ -1,6 +1,6 @@
 class ContactsController < ApplicationController
   before_action :set_contact, only: [:show]
-  before_action :set_user_id, only: [:create,:user_contacts]
+  before_action :set_user_id, only: [:create]
   
   def index
     @contacts = Contact.all
@@ -17,7 +17,7 @@ class ContactsController < ApplicationController
     # I have set a uniq compisite index/key on Contact table for user_id, phone_number, name. 
     # If another subsequent request tries to create the same record, it will not create duplicate records.
     # Can be used for patterns where A Create CTA button on front end is clicked multiple times to create the same record.
-    @contact = Contact.new(contact_params.merge({user_id: @user_id}))
+    @contact = Contact.new(contact_params.merge({user_id: @user.id}))
     if @contact.save
       render json: @contact, status: :created
     else

@@ -108,7 +108,6 @@ describe 'Contacts API' do
         type: :object,
         properties: {
           name: { type: :string, description: 'Name of the contact' },
-          user_id: { type: :integer, description: 'User id to which the contact belongs to'  },
           phone_number: { type: :string , description: 'Phone number of the contact'},
         },
         required: [ 'name', 'phone_number' ]
@@ -172,11 +171,11 @@ describe 'Transactions API' do
     end
   end
 
-  path '/users/:id/transactions' do
-    get 'Fetch all the transaction for a user' do
+  path 'transactions' do
+    get 'Fetch all the transaction for a user. Pass the signed jwt token as a bearer token to identify the user for which the transaction needs to be fetched' do
       tags 'Transactions'
       produces  'application/json'
-      parameter name: :id, :in => :path, :type => :integer, description: 'User Id for which transaction are required',
+      parameter name: :transaction, in: :body, 
       schema: {
         type: :object,
         properties: {
