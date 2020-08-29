@@ -105,12 +105,45 @@ paths:
                   name:
                     type: string
                     description: Name of the user
+  "/get_user_token/:id":
+    get:
+      summary: Returns signed token for a user. Providing this api just to fetch the
+        signed token for a user whenver needed
+      tags:
+      - Users
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Returns signed auth token for a user id
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user_id:
+                    type: integer
+                    description: Id of the user
+                  auth_token:
+                    type: string
+                    description: Signed auth token for the requested user
   "/contacts":
     get:
-      summary: Returns all the contacts for a user. The user id is fetched from the
-        signed authentication token which needs to be passed in the Bearer
+      summary: 'Returns all the contacts for a user. The user id is fetched from the
+        signed authentication token which needs to be passed in the Bearer as Authorization:
+        Bearer <signed_token>'
       tags:
       - Contacts
+      parameters:
+      - name: Authorization
+        in: header
+        description: 'Authorization: Bearer <Users signed token>'
+        schema:
+          type: string
       responses:
         '200':
           description: lists all the contacts
@@ -132,12 +165,17 @@ paths:
                     type: string
                     description: Phone number of the contact
     post:
-      summary: Creates a contact belonging to a user in our system. The user id is
+      summary: 'Creates a contact belonging to a user in our system. The user id is
         fetched from the signed authentication token which needs to be passed in the
-        Bearer
+        Bearer as Authorization: Bearer <signed_token>'
       tags:
       - Contacts
-      parameters: []
+      parameters:
+      - name: Authorization
+        in: header
+        description: 'Authorization: Bearer <Users signed token>'
+        schema:
+          type: string
       responses:
         '200':
           description: Returns the newly created contact
@@ -175,8 +213,9 @@ paths:
               - phone_number
   "/contacts/:id":
     get:
-      summary: Returns a specific contact for a user. The user id is fetched from
-        the signed authentication token which needs to be passed in the Bearer
+      summary: 'Returns a specific contact for a user. The user id is fetched from
+        the signed authentication token which needs to be passed in the Bearer as
+        Authorization: Bearer <signed_token>'
       tags:
       - Contacts
       responses:
@@ -201,9 +240,9 @@ paths:
                     description: Phone number of the contact
   "/initiate_transaction":
     post:
-      summary: Intiate a transaction to a contact. The user id which initiates the
+      summary: 'Intiate a transaction to a contact. The user id which initiates the
         transaction is fetched from the signed authentication token which needs to
-        be passed in the Bearer
+        be passed in the Bearer as Authorization: Bearer <signed_token>'
       tags:
       - Transactions
       parameters: []
@@ -240,9 +279,9 @@ paths:
               - amount
   transactions:
     get:
-      summary: Fetch all the transaction for a user. Pass the signed jwt token as
+      summary: 'Fetch all the transaction for a user. Pass the signed jwt token as
         a bearer token to identify the user for which the transaction needs to be
-        fetched
+        fetched as Authorization: Bearer <signed_token>'
       tags:
       - Transactions
       parameters:
@@ -277,24 +316,25 @@ paths:
               schema:
                 type: object
                 properties:
-                  status:
-                    type: string
-                    description: Status of the transactions
-                  transaction_type_id:
-                    type: integer
-                    description: transaction type id 1 for credit , 2 for debit
-                  amount:
-                    type: integer
-                    description: Amount for the transaction
-                  user_id:
-                    type: integer
-                    description: User id who initiated the transaction
-                  contact_id:
-                    type: integer
-                    description: Contact id with which the transaction was done
-                  created_at:
-                    type: integer
-                    description: Created Time stamp of the transaction
+                  data:
+                    status:
+                      type: string
+                      description: Status of the transactions
+                    transaction_type_id:
+                      type: integer
+                      description: transaction type id 1 for credit , 2 for debit
+                    amount:
+                      type: integer
+                      description: Amount for the transaction
+                    user_id:
+                      type: integer
+                      description: User id who initiated the transaction
+                    contact_id:
+                      type: integer
+                      description: Contact id with which the transaction was done
+                    created_at:
+                      type: integer
+                      description: Created Time stamp of the transaction
 servers:
 - url: https://{defaultHost}
   variables:

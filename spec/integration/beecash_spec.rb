@@ -77,6 +77,7 @@ describe 'Users API' do
          auth_token: {type: :string, description: 'Signed auth token for the requested user'}
        }
      let(:user) { [{ id: '1', name: 'User1', email: 'user1@beecash.io' },  {id: '2', name: 'User2', email: 'user2@beecash.io' }] }
+     run_test!
      end
    end
  end
@@ -84,9 +85,10 @@ end
 
 describe 'Contacts API' do
   path '/contacts' do
-    get 'Returns all the contacts for a user. The user id is fetched from the signed authentication token which needs to be passed in the Bearer' do
+    get 'Returns all the contacts for a user. The user id is fetched from the signed authentication token which needs to be passed in the Bearer as Authorization: Bearer <signed_token>' do
       tags 'Contacts'
       produces 'application/json'
+      parameter name: :Authorization, :in =>  :header, :type => :string, :description => "Authorization: Bearer <Users signed token>"
       response '200', 'lists all the contacts' do
         schema type: :object ,
         properties: {
@@ -100,10 +102,11 @@ describe 'Contacts API' do
       end
     end
 
-    post 'Creates a contact belonging to a user in our system. The user id is fetched from the signed authentication token which needs to be passed in the Bearer' do
+    post 'Creates a contact belonging to a user in our system. The user id is fetched from the signed authentication token which needs to be passed in the Bearer as Authorization: Bearer <signed_token>' do
      tags 'Contacts'
      consumes 'application/json'
      produces 'application/json'
+     parameter name: :Authorization, :in =>  :header, :type => :string, :description => "Authorization: Bearer <Users signed token>"
      parameter name: :contact, in: :body, schema: {
         type: :object,
         properties: {
@@ -127,7 +130,7 @@ describe 'Contacts API' do
    end
 
    path '/contacts/:id' do
-    get 'Returns a specific contact for a user. The user id is fetched from the signed authentication token which needs to be passed in the Bearer' do
+    get 'Returns a specific contact for a user. The user id is fetched from the signed authentication token which needs to be passed in the Bearer as Authorization: Bearer <signed_token>' do
       tags 'Contacts'
       produces 'application/json'
       response '200', 'lists specific contact for the user' do
@@ -147,7 +150,7 @@ end
 
 describe 'Transactions API' do
   path '/initiate_transaction' do
-    post 'Intiate a transaction to a contact. The user id which initiates the transaction is fetched from the signed authentication token which needs to be passed in the Bearer' do
+    post 'Intiate a transaction to a contact. The user id which initiates the transaction is fetched from the signed authentication token which needs to be passed in the Bearer as Authorization: Bearer <signed_token>' do
       tags 'Transactions'
       consumes 'application/json'
       produces  'application/json'
@@ -172,7 +175,7 @@ describe 'Transactions API' do
   end
 
   path 'transactions' do
-    get 'Fetch all the transaction for a user. Pass the signed jwt token as a bearer token to identify the user for which the transaction needs to be fetched' do
+    get 'Fetch all the transaction for a user. Pass the signed jwt token as a bearer token to identify the user for which the transaction needs to be fetched as Authorization: Bearer <signed_token>' do
       tags 'Transactions'
       produces  'application/json'
       parameter name: :transaction_type, :in => :query, :type => :string, description: 'Fetch transactions for one of the allowed transaction types: Debit | Credit'
