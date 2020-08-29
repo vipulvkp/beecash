@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  trasaction_type_id: 1
+  status: MyString
+  amount: 1
+  user: one
+  contact: one
+
+two:
+  trasaction_type_id: 1
+  status: MyString
+  amount: 1
+  user: two
+  contact: two

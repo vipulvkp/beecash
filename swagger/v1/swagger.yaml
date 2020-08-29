@@ -1,0 +1,177 @@
+---
+openapi: 3.0.1
+info:
+  title: API V1
+  version: v1
+paths:
+  "/users":
+    get:
+      summary: Returns all the users in the system. Users are our end users
+      tags:
+      - Users
+      responses:
+        '200':
+          description: lists all the users
+          content: {}
+    post:
+      summary: Creates a user in our system. Treat it like a user himself signups
+        with our system. The apis is http authenticated protected. Username/password
+        is admin/admin
+      tags:
+      - Users
+      parameters: []
+      responses:
+        '200':
+          description: Returns the newly created user id along with its signed token.
+            This signed token must be used for creating contacts and initiating transation
+            as a bearer token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user_id:
+                    type: integer
+                  auth_token:
+                    type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+                phone_number:
+                  type: string
+                password:
+                  type: string
+                balance:
+                  type: integer
+              required:
+              - name
+              - email
+              - phone_number
+              - password
+              - balance
+  "/users/:id":
+    get:
+      summary: Returns a specific user in our system. Users are our end users
+      tags:
+      - Users
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: displays the specific user
+          content: {}
+  "/contacts":
+    get:
+      summary: Returns all the contacts for a user. The user id is fetched from the
+        signed authentication token which needs to be passed in the Bearer
+      tags:
+      - Contacts
+      responses:
+        '200':
+          description: lists all the contacts
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  name:
+                    type: string
+                  user_id:
+                    type: integer
+                  phone_number:
+                    type: string
+    post:
+      summary: Creates a contact belonging to a user in our system. The user id is
+        fetched from the signed authentication token which needs to be passed in the
+        Bearer
+      tags:
+      - Contacts
+      parameters: []
+      responses:
+        '200':
+          description: Returns the newly created contact
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  name:
+                    type: string
+                  user_id:
+                    type: integer
+                  phone_number:
+                    type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                user_id:
+                  type: integer
+                phone_number:
+                  type: string
+              required:
+              - name
+              - phone_number
+  "/initiate_transaction":
+    post:
+      summary: Intiate a transaction to a contact. The user id which initiates the
+        transaction is fetched from the signed authentication token which needs to
+        be passed in the Bearer
+      tags:
+      - Transactions
+      parameters: []
+      responses:
+        '200':
+          description: Successfull creation of transaction
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: A string message highlighting is the transaction
+                      was successfull or failure
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                transaction_type:
+                  type: string
+                  description: 'Allowed values: debit | credit'
+                contact_id:
+                  type: integer
+                  description: contact_id to which transaction needs to be done
+                amount:
+                  type: integer
+                  description: amount for transaction
+              required:
+              - transaction_type
+              - contact_id
+              - amount
+servers:
+- url: https://{defaultHost}
+  variables:
+    defaultHost:
+      default: www.example.com
