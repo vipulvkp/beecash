@@ -10,6 +10,7 @@ gem 'mysql2'
 gem 'jwt'
 gem 'rswag'
 gem 'rspec-rails', '~> 3.5'
+gem 'graphql'
 # Use Puma as the app server
 gem 'puma', '~> 4.1'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
