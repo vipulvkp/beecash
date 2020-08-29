@@ -44,7 +44,7 @@ class UsersController < ApplicationController
      # Using database isolation levels and lock wait policies we can achieve this
 
      txn = Transaction.create(
-     trasaction_type_id: params[:transaction_type],
+     transaction_type_id: TransactionType.find_by(name: params[:transaction_type].downcase).id,
      status: "created",
      user_id: @user.id,
      contact_id: params[:contact_id] ,
@@ -54,11 +54,11 @@ class UsersController < ApplicationController
      begin
        contact = Contact.lock("FOR UPDATE NOWAIT").find(params[:contact_id])
        txn.update_attributes(status: "in_progress")
-       contact.initiate_transaction(params[:transaction_type], params[:amount])
-       txn.update_attributes(status: "completed")
+       contact.initiate_transaction(params[:transaction_type].downcase, params[:amount])
+       txn.update(status: "completed")
        render json: {message: "successfull"}, status: 200
      rescue StandardError => e
-      txn.update_attributes(status: "failed", failure_message: e.message[0..200])
+      txn.update(status: "failed", failure_message: e.message[0..200])
       render json: {message: "Error While transaction. Please try again"}, status: 500
      end 
      end
@@ -78,8 +78,8 @@ class UsersController < ApplicationController
     end
 
     def verify_transaction_params
-      render json: {msg: "Invalid transaction type"} if params[:transaction_type].blank? or !["credit","debit"].include?(params[:transaction_type])
-      render json: {msg: "Invalid amount given. Please give a positive amount for transfer"} if params[:amount].blank? or params[:amount]<=0
+      render json: {msg: "Invalid transaction type"} if params[:transaction_type].blank? or !["credit","debit"].include?(params[:transaction_type].downcase)
+      render json: {msg: "Invalid amount given. Please give a positive amount for operation"} if params[:amount].blank? or params[:amount].to_i<=0
     end
 
     def http_authenticate

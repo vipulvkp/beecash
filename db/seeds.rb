@@ -5,5 +5,5 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-TransactionType.create(name: "Credit")
-TransactionType.create(name: "Debit")
+TransactionType.create(name: "credit")
+TransactionType.create(name: "debit")

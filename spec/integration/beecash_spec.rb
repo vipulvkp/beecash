@@ -175,16 +175,10 @@ describe 'Transactions API' do
     get 'Fetch all the transaction for a user. Pass the signed jwt token as a bearer token to identify the user for which the transaction needs to be fetched' do
       tags 'Transactions'
       produces  'application/json'
-      parameter name: :transaction, in: :body, 
-      schema: {
-        type: :object,
-        properties: {
-          transaction_type: { type: :string, description: 'Fetch transactions for one of the allowed transaction types: Debit | Credit' },
-          contact_id: { type: :integer, description: 'Fetch transactions for this particular contact id' },
-          page_number: { type: :integer, description: 'Pagination supported through page number. If not given, page_number will be 1' },
-          page_size: { type: :integer, description: 'Pagination supported through page size. If not given, page size will be 50' },
-        },
-      }
+      parameter name: :transaction_type, :in => :query, :type => :string, description: 'Fetch transactions for one of the allowed transaction types: Debit | Credit'
+      parameter name: :contact_id, :in => :query, :type => :integer, description: 'Fetch transactions for this particular contact id'
+      parameter name: :page_number, :in => :query, :type => :integer, description: 'Pagination supported through page number. If not given, page_number will be 1'
+      parameter name: :page_size, :in => :query, :type => :integer, description: 'Pagination supported through page number. If not given, page_size will be 50'
       response '200', 'Successful response listing all the transactions' do
         schema type: :object ,
         properties: {

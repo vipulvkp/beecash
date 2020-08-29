@@ -10,8 +10,8 @@ class User < ApplicationRecord
 
   def get_paginated_transactions(filter_params, page_number, page_size)
     offset = (page_number - 1) * page_size
-    self.transactions.select(:status, :amount, :user_id, :contact_id, :transaction_type_id, :created_at).where(filter_params).
-    limit(paginated_params[:page_size]).
+    self.transactions.select(:id,:status, :amount, :user_id, :contact_id, :transaction_type_id, :created_at).where(filter_params).
+    limit(page_size).
     offset(offset).
     order("created_at desc")
   end
