@@ -26,7 +26,6 @@ ActiveRecord::Schema.define(version: 2020_08_29_103518) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["name", "phone_number", "user_id"], name: "index_contacts_on_name_and_phone_number_and_user_id", unique: true
-    t.index ["user_id", "name", "phone_number"], name: "user_id", unique: true
     t.index ["user_id"], name: "index_contacts_on_user_id"
   end
 
@@ -37,7 +36,7 @@ ActiveRecord::Schema.define(version: 2020_08_29_103518) do
   end
 
   create_table "transactions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.integer "trasaction_type_id"
+    t.integer "transaction_type_id"
     t.string "status"
     t.integer "amount"
     t.bigint "user_id", null: false
@@ -45,7 +44,9 @@ ActiveRecord::Schema.define(version: 2020_08_29_103518) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "failure_message"
+    t.index ["contact_id", "user_id", "transaction_type_id", "status"], name: "transaction_composite_index"
     t.index ["contact_id"], name: "index_transactions_on_contact_id"
+    t.index ["transaction_type_id"], name: "index_transactions_on_transaction_type_id"
     t.index ["user_id"], name: "index_transactions_on_user_id"
   end
 
