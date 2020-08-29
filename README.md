@@ -18,7 +18,7 @@ Rails version: Rails 6.0.3.2
 Please have a local database ready and update your config/database.yml to point to a database(mysql). 
 As of now Gemfile has mysql. 
 
-Stpes for App initialization
+Steps for App initialization
 
 * bundle install
 
@@ -30,9 +30,9 @@ Stpes for App initialization
 
 Once the above puma server is started, Check out the REST api documentation at http://localhost:3000/api-docs
 
-I have also exposed graphql api (only query) to get a user its contacts and its transactions(pagination supported). Do check out the graphql signature of 
+I have also exposed GRAPHQL API (only query) to get a user its contacts and its transactions(pagination supported). Do check out the graphql signature of 
 "user" query in a graphql Client. I have been using Altair graphql Client which is pretty easy to use and play around. 
-This rails app does not have graphiql as I created the rails app in only --api Mode. 
+This rails app does not have graphiql(local graphql playground supported by graphql gem) as I created the rails app in only --api Mode. 
 
 Below is the graphql query:
 
