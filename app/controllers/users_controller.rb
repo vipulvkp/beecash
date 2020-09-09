@@ -22,7 +22,7 @@ class UsersController < ApplicationController
     # In this pattern, we can have a simple find and create by appraoch. If record alredy exists, we just render a back simple json , thereby not creating duplicates.
 
     if User.find_by(name: user_params[:name], email: user_params[:email], phone_number: user_params[:phone_number]).present?
-      render json: {msg: "Hey admin. This user already exists"} if User.find_by(name: user_params[:name], email: user_params[:email], phone_number: user_params[:phone_number]).present?
+      render json: {msg: "Hey admin. This user already exists"} 
     else
       user_params[:password] = Base64.encode64(user_params[:password])
       @user = User.new(user_params)
@@ -42,9 +42,9 @@ class UsersController < ApplicationController
      # However, we need to make sure when subsequent requests are made in a very short duration then they might end up to be concurrent,
      # In concurrent transactions, atomicity and race conditions needs to be taken care of.
      # Using database isolation levels and lock wait policies we can achieve this
-
+     
      txn = Transaction.create(
-     transaction_type_id: TransactionType.find_by(name: params[:transaction_type].downcase).id,
+     transaction_type_id: Transaction.transaction_type_ids[params[:transaction_type].downcase],
      status: "created",
      user_id: @user.id,
      contact_id: params[:contact_id] ,

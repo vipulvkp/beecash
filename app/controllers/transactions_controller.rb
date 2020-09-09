@@ -9,7 +9,7 @@ class TransactionsController < ApplicationController
 
   def filter_params
    obj = {}
-   obj[:transaction_type_id] = TransactionType.find_by(name: params[:transaction_type].downcase).id if params[:transaction_type].present?
+   obj[:transaction_type_id] = Transaction.transaction_type_ids[params[:transaction_type].downcase] if params[:transaction_type].present?
    obj[:contact_id] = params[:contact_id] if params[:contact_id].present?
    obj
   end

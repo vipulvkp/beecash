@@ -18,7 +18,7 @@ module Types
 
     def transactions(input={}) 
       filter = {}
-      filter[:transaction_type_id] = TransactionType.find_by(name: input[:transaction_type].downcase).id if input[:transaction_type].present?
+      filter[:transaction_type_id] = Transaction.transaction_type_ids[input[:transaction_type].downcase] if input[:transaction_type].present?
       filter[:contact_id] = input[:contact_id] if input[:contact_id].present? 
       get_page_number = (input[:page_number].present?) ? input[:page_number].to_i : 1  
       get_page_size = (input[:page_size].present?) ? input[:page_size].to_i : 50
